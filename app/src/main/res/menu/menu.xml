@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id = "@+id/menu"
+>      <item
+          android:id="@+id/Barcelona"
+          android:title="Barcelona"
+          app:showAsAction="collapseActionView"
+     />
+    <item
+        android:id="@+id/Madrid"
+        android:title="Madrid"
+        app:showAsAction="collapseActionView|withText"
+        android:icon="@drawable/spania"
+
+        />
+
+</menu>
