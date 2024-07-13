@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
    lateinit var text:TextView
    lateinit var toolbar:androidx.appcompat.widget.Toolbar
    lateinit var tempText:TextView;
+    lateinit var thread:Thread
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -32,15 +33,22 @@ class MainActivity : AppCompatActivity() {
         toolbar=findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         //Orasul default
-        var temp:Float = 0.0f
-        val thread = Thread{
-            temp = tempGetter(text.text.toString())
+        var temp:Float = threadFun("Bucharest")
 
-        }
-        thread.start();
         writeTemperature(temp)
 
     }
+    fun threadFun(town:String):Float{
+        var temp:Float = 0.1f
+        thread = Thread{
+            temp = tempGetter(town)
+        }
+        thread.start()
+        thread.join()
+
+        return temp
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater:MenuInflater = menuInflater
@@ -54,7 +62,8 @@ class MainActivity : AppCompatActivity() {
                 text.clearComposingText();
                 text.text="Madrid"
                 text.textAlignment= View.TEXT_ALIGNMENT_CENTER
-                var temp:Float = tempGetter("Madrid");
+                var temp:Float =threadFun("Madrid")
+
                 writeTemperature(temp)
                 return true
             }
@@ -62,6 +71,8 @@ class MainActivity : AppCompatActivity() {
                 text.clearComposingText()
                 text.text = "Barcelona"
                 text.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                var temp:Float = threadFun("Barcelona")
+                writeTemperature(temp)
                 return true
             }
             else->super.onOptionsItemSelected(item)
@@ -74,6 +85,7 @@ class MainActivity : AppCompatActivity() {
         tempText.clearComposingText()
         tempText.text = temp.toString()+"°C"
         tempText.textAlignment=View.TEXT_ALIGNMENT_CENTER
+        tempText.textSize = 50.5f
     }
     fun tempGetter(town:String):Float{
         var url:String = apiCreator(town);
