@@ -12,10 +12,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import java.util.zip.Inflater
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
    lateinit var text:TextView
    lateinit var toolbar:androidx.appcompat.widget.Toolbar
+   lateinit var tempText:TextView;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -29,6 +31,15 @@ class MainActivity : AppCompatActivity() {
         text = findViewById(R.id.infos)
         toolbar=findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        //Orasul default
+        var temp:Float = 0.0f
+        val thread = Thread{
+            temp = tempGetter(text.text.toString())
+
+        }
+        thread.start();
+        writeTemperature(temp)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -43,11 +54,37 @@ class MainActivity : AppCompatActivity() {
                 text.clearComposingText();
                 text.text="Madrid"
                 text.textAlignment= View.TEXT_ALIGNMENT_CENTER
-
+                var temp:Float = tempGetter("Madrid");
+                writeTemperature(temp)
+                return true
+            }
+            R.id.Barcelona->{
+                text.clearComposingText()
+                text.text = "Barcelona"
+                text.textAlignment = View.TEXT_ALIGNMENT_CENTER
                 return true
             }
             else->super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
+
     }
+
+    fun writeTemperature(temp:Float){
+        tempText=findViewById(R.id.tempText)
+        tempText.clearComposingText()
+        tempText.text = temp.toString()+"°C"
+        tempText.textAlignment=View.TEXT_ALIGNMENT_CENTER
+    }
+    fun tempGetter(town:String):Float{
+        var url:String = apiCreator(town);
+        var connection:APIconnection = APIconnection(url);
+        var temp:Float = connection.temperature;
+        return temp;
+    }
+    fun apiCreator(town:String): String{
+        var url:String = "http://api.weatherapi.com/v1/current.json?key=5f7ab45fa09d4d82b8f173259241207&q="+town+"&aqi=no"
+        return url
+    }
+
+
 }
