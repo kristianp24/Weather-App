@@ -59,25 +59,36 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId){
             R.id.Madrid->{
-                text.clearComposingText();
-                text.text="Madrid"
-                text.textAlignment= View.TEXT_ALIGNMENT_CENTER
-                var temp:Float =threadFun("Madrid")
-
-                writeTemperature(temp)
+                findCity(item.title.toString())
                 return true
             }
             R.id.Barcelona->{
-                text.clearComposingText()
-                text.text = "Barcelona"
-                text.textAlignment = View.TEXT_ALIGNMENT_CENTER
-                var temp:Float = threadFun("Barcelona")
-                writeTemperature(temp)
+                findCity(item.title.toString())
+                return true
+            }
+            R.id.Berlin->{
+                findCity(item.title.toString())
+                return true
+            }
+            R.id.Paris->{
+                findCity(item.title.toString())
+                return true
+            }
+            R.id.Rome->{
+                findCity(item.title.toString())
                 return true
             }
             else->super.onOptionsItemSelected(item)
         }
 
+    }
+
+    fun findCity(city:String){
+        text.clearComposingText()
+        text.text = city
+        text.textAlignment = View.TEXT_ALIGNMENT_CENTER
+        var temp:Float = threadFun(city)
+        writeTemperature(temp)
     }
 
     fun writeTemperature(temp:Float){

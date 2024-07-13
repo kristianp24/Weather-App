@@ -14,5 +14,23 @@
         android:icon="@drawable/spania"
 
         />
+    <item
+        android:id="@+id/Rome"
+        android:title="Rome"
+        app:showAsAction="collapseActionView|withText"
+        />
+
+    <item
+        android:id="@+id/Paris"
+        android:title="Paris"
+        app:showAsAction="collapseActionView|withText"
+        />
+
+    <item
+        android:id="@+id/Berlin"
+        android:title="Berlin"
+        app:showAsAction="collapseActionView|withText"
+        />
+
 
 </menu>
