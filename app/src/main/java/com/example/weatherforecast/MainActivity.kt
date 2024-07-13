@@ -1,24 +1,35 @@
 package com.example.weatherforecast
 
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import java.util.zip.Inflater
 import kotlinx.coroutines.*
+import java.time.LocalDateTime
+import java.time.LocalDateTime.now
+import java.time.LocalTime
 
 class MainActivity : AppCompatActivity() {
    lateinit var text:TextView
    lateinit var toolbar:androidx.appcompat.widget.Toolbar
    lateinit var tempText:TextView;
     lateinit var thread:Thread
+    lateinit var back:androidx.constraintlayout.widget.ConstraintLayout
+    lateinit var sunImage:ImageView
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -29,9 +40,12 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+
         text = findViewById(R.id.infos)
         toolbar=findViewById(R.id.toolbar)
+        tempText=findViewById(R.id.tempText)
         setSupportActionBar(toolbar)
+        this.setBackground()
         //Orasul default
         var temp:Float = threadFun("Bucharest")
 
@@ -49,6 +63,19 @@ class MainActivity : AppCompatActivity() {
         return temp
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun setBackground(){
+        sunImage = findViewById(R.id.sun)
+        back = findViewById(R.id.main)
+        if(LocalTime.now() > LocalTime.of(12,0)){
+            back.setBackgroundResource(R.drawable.night)
+            sunImage.visibility = View.INVISIBLE
+            tempText.setTextColor(Color.WHITE)
+            text.setTextColor(Color.WHITE)
+            toolbar.setTitleTextColor(Color.WHITE)
+        }
+
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater:MenuInflater = menuInflater
