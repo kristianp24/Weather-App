@@ -32,5 +32,11 @@
         app:showAsAction="collapseActionView|withText"
         />
 
+    <item
+        android:id="@+id/Other"
+        android:title = "Other"
+        app:showAsAction="collapseActionView"
+        />
+
 
 </menu>

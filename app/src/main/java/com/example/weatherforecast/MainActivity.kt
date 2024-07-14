@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toolbar
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var thread:Thread
     lateinit var back:androidx.constraintlayout.widget.ConstraintLayout
     lateinit var sunImage:ImageView
+    lateinit var searchBar:EditText
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +69,7 @@ class MainActivity : AppCompatActivity() {
     fun setBackground(){
         sunImage = findViewById(R.id.sun)
         back = findViewById(R.id.main)
-        if(LocalTime.now() > LocalTime.of(12,0)){
+        if(LocalTime.now() > LocalTime.of(20,0)){
             back.setBackgroundResource(R.drawable.night)
             sunImage.visibility = View.INVISIBLE
             tempText.setTextColor(Color.WHITE)
@@ -103,6 +105,12 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.Rome->{
                 findCity(item.title.toString())
+                return true
+            }
+            R.id.Other->{
+               searchBar = findViewById(R.id.search)
+               searchBar.visibility=View.VISIBLE
+
                 return true
             }
             else->super.onOptionsItemSelected(item)
