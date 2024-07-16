@@ -61,11 +61,19 @@
         android:id="@+id/tempText"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginTop="52dp"
+        android:textStyle="italic"
+        app:layout_constraintTop_toBottomOf="@+id/ziua"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/ziua"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Day"
         android:textStyle="italic"
         app:layout_constraintTop_toBottomOf="@+id/infos"
         />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

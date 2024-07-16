@@ -2,12 +2,14 @@ package com.example.weatherforecast
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,6 +21,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import java.util.zip.Inflater
 import kotlinx.coroutines.*
+import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalDateTime.now
 import java.time.LocalTime
@@ -31,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var back:androidx.constraintlayout.widget.ConstraintLayout
     lateinit var sunImage:ImageView
     lateinit var searchBar:EditText
+    lateinit var ziua:TextView
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +51,12 @@ class MainActivity : AppCompatActivity() {
         text = findViewById(R.id.infos)
         toolbar=findViewById(R.id.toolbar)
         tempText=findViewById(R.id.tempText)
+        ziua = findViewById(R.id.ziua)
+        var currentDay:DayOfWeek = LocalDate.now().dayOfWeek
+        ziua.text = currentDay.toString()
+        ziua.textAlignment = View.TEXT_ALIGNMENT_CENTER
+        ziua.textSize = 43.5f
+
         setSupportActionBar(toolbar)
         this.setBackground()
         //Orasul default
@@ -71,9 +82,10 @@ class MainActivity : AppCompatActivity() {
         back = findViewById(R.id.main)
         if(LocalTime.now() > LocalTime.of(20,0)){
             back.setBackgroundResource(R.drawable.night)
-            sunImage.visibility = View.INVISIBLE
+            sunImage.setImageResource(R.drawable.moon)
             tempText.setTextColor(Color.WHITE)
             text.setTextColor(Color.WHITE)
+            ziua.setTextColor(Color.WHITE)
             toolbar.setTitleTextColor(Color.WHITE)
         }
 
@@ -110,6 +122,22 @@ class MainActivity : AppCompatActivity() {
             R.id.Other->{
                searchBar = findViewById(R.id.search)
                searchBar.visibility=View.VISIBLE
+                searchBar.setOnEditorActionListener(TextView.OnEditorActionListener{ v,id,listener ->
+                         if(id == EditorInfo.IME_ACTION_DONE)
+                         {
+                             val input:String = searchBar.text.toString()
+                             val firstLetter:Char = input[0]
+                             firstLetter.uppercaseChar()
+                             var city:String =""
+                             city+=firstLetter
+                             for(i in 1..input.length-1){
+                                 city+=input[i]
+                             }
+                             findCity(city)
+                             return@OnEditorActionListener true
+                         }
+                    false
+                })
 
                 return true
             }
