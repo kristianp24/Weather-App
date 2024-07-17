@@ -3,6 +3,7 @@ package com.example.weatherforecast
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Icon
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
@@ -17,6 +18,7 @@ import android.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import java.util.zip.Inflater
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var back:androidx.constraintlayout.widget.ConstraintLayout
     lateinit var sunImage:ImageView
     lateinit var searchBar:EditText
+    lateinit var weatherCondition:TextView
     lateinit var ziua:TextView
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         text = findViewById(R.id.infos)
         toolbar=findViewById(R.id.toolbar)
         tempText=findViewById(R.id.tempText)
+        weatherCondition=findViewById(R.id.condition)
         ziua = findViewById(R.id.ziua)
         var currentDay:DayOfWeek = LocalDate.now().dayOfWeek
         ziua.text = currentDay.toString()
@@ -165,6 +169,12 @@ class MainActivity : AppCompatActivity() {
         var url:String = apiCreator(town);
         var connection:APIconnection = APIconnection(url);
         var temp:Float = connection.temperature;
+        weatherCondition.text = connection.condtion
+        weatherCondition.textAlignment = View.TEXT_ALIGNMENT_CENTER
+        weatherCondition.textSize = 40.5f
+//        var uri:Uri = connection.imageURL.toUri()
+//        sunImage.setImageURI(uri)
+
         return temp;
     }
     fun apiCreator(town:String): String{

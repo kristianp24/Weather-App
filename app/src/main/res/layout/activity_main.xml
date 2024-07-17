@@ -66,6 +66,16 @@
         app:layout_constraintTop_toBottomOf="@+id/ziua"
         tools:layout_editor_absoluteX="0dp" />
 
+
+    <TextView
+        android:id="@+id/condition"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="40dp"
+        android:textStyle="italic"
+        app:layout_constraintTop_toBottomOf="@+id/tempText"
+        tools:layout_editor_absoluteX="0dp" />
+
     <TextView
         android:id="@+id/ziua"
         android:layout_width="match_parent"

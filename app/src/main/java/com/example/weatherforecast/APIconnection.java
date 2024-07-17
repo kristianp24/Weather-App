@@ -13,6 +13,16 @@ import java.util.Scanner;
 public class APIconnection {
     private String url;
     private float temp;
+    private String imageURL;
+    private String condtion;
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public String getCondtion() {
+        return condtion;
+    }
 
     public APIconnection(String url){
         this.url = url;
@@ -44,7 +54,10 @@ public class APIconnection {
                 for(int i=0;i<array.length();i++){
                     JSONObject object = array.getJSONObject(i);
                     JSONObject current = object.getJSONObject("current");
+                    JSONObject condition = current.getJSONObject("condition");
                     this.temp = (float) current.getDouble("temp_c");
+                    this.condtion = condition.getString("text");
+                    this.imageURL = condition.getString("icon");
                 }
             }
         }
