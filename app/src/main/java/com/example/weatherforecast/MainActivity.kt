@@ -3,6 +3,7 @@ package com.example.weatherforecast
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Icon
+import android.media.Image
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -21,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.squareup.picasso.Picasso
 import java.util.zip.Inflater
 import kotlinx.coroutines.*
 import java.time.DayOfWeek
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var searchBar:EditText
     lateinit var weatherCondition:TextView
     lateinit var ziua:TextView
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,14 +53,20 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-
+        sunImage = findViewById(R.id.sun)
         text = findViewById(R.id.infos)
         toolbar=findViewById(R.id.toolbar)
         tempText=findViewById(R.id.tempText)
         weatherCondition=findViewById(R.id.condition)
         ziua = findViewById(R.id.ziua)
         var currentDay:DayOfWeek = LocalDate.now().dayOfWeek
-        ziua.text = currentDay.toString()
+        var day:String = currentDay.toString().lowercase()
+        var firstLetter:Char = day[0].uppercaseChar()
+        var finalDay:String = firstLetter.toString()
+
+        for(i in 1..day.length-1)
+            finalDay+=day[i]
+        ziua.text = finalDay
         ziua.textAlignment = View.TEXT_ALIGNMENT_CENTER
         ziua.textSize = 43.5f
 
@@ -67,6 +76,7 @@ class MainActivity : AppCompatActivity() {
         var temp:Float = threadFun("Bucharest")
 
         writeTemperature(temp)
+
 
     }
     fun threadFun(town:String):Float{
@@ -82,7 +92,7 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun setBackground(){
-        sunImage = findViewById(R.id.sun)
+
         back = findViewById(R.id.main)
         if(LocalTime.now() > LocalTime.of(20,0)){
             back.setBackgroundResource(R.drawable.night)
@@ -166,14 +176,21 @@ class MainActivity : AppCompatActivity() {
         tempText.textSize = 50.5f
     }
     fun tempGetter(town:String):Float{
-        var url:String = apiCreator(town);
-        var connection:APIconnection = APIconnection(url);
-        var temp:Float = connection.temperature;
-        weatherCondition.text = connection.condtion
-        weatherCondition.textAlignment = View.TEXT_ALIGNMENT_CENTER
-        weatherCondition.textSize = 40.5f
-//        var uri:Uri = connection.imageURL.toUri()
-//        sunImage.setImageURI(uri)
+
+            var url: String = apiCreator(town);
+            var connection: APIconnection = APIconnection(url);
+            var temp: Float = connection.temperature;
+            weatherCondition.text = connection.condtion
+            weatherCondition.textAlignment = View.TEXT_ALIGNMENT_CENTER
+            weatherCondition.textSize = 40.5f
+            //  var uri:Uri = connection.imageURL.toUri()
+            var urlFinal:String = connection.imageURL.split("//")[1]
+            var urlImage:String = "http://"
+             urlImage+=urlFinal
+            runOnUiThread {
+                Picasso.get().load(urlImage).error(R.drawable.sun).into(sunImage)
+            }
+           
 
         return temp;
     }

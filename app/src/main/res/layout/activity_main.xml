@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginBottom="40dp"
-        android:src="@drawable/sun"
+
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/infos"
 
@@ -38,7 +38,7 @@
         android:layout_height="48dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/search_form"
-        android:hint="Search the city here ... "
+        android:hint=" Search the city here ... "
         android:visibility="invisible"
         android:inputType="text"
         android:imeOptions="actionDone"
