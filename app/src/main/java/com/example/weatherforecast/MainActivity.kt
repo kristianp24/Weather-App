@@ -12,14 +12,18 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.Adapter
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import androidx.core.text.util.LocalePreferences.FirstDayOfWeek.Days
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.squareup.picasso.Picasso
@@ -32,15 +36,17 @@ import java.time.LocalDateTime.now
 import java.time.LocalTime
 
 class MainActivity : AppCompatActivity() {
-   lateinit var text:TextView
-   lateinit var toolbar:androidx.appcompat.widget.Toolbar
-   lateinit var tempText:TextView;
+    lateinit var text:TextView
+    lateinit var toolbar:androidx.appcompat.widget.Toolbar
+    lateinit var tempText:TextView;
     lateinit var thread:Thread
     lateinit var back:androidx.constraintlayout.widget.ConstraintLayout
     lateinit var sunImage:ImageView
     lateinit var searchBar:EditText
     lateinit var weatherCondition:TextView
     lateinit var ziua:TextView
+    lateinit var daysofWeek:List<Day>
+    lateinit var listView:ListView
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         toolbar=findViewById(R.id.toolbar)
         tempText=findViewById(R.id.tempText)
         weatherCondition=findViewById(R.id.condition)
+        listView = findViewById(R.id.list)
         ziua = findViewById(R.id.ziua)
         var currentDay:DayOfWeek = LocalDate.now().dayOfWeek
         var day:String = currentDay.toString().lowercase()
@@ -76,13 +83,20 @@ class MainActivity : AppCompatActivity() {
         var temp:Float = threadFun("Bucharest")
 
         writeTemperature(temp)
+        listViewAdapter()
 
 
+    }
+
+    fun listViewAdapter(){
+        var adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,daysofWeek)
+        listView.adapter=adapter
     }
     fun threadFun(town:String):Float{
         var temp:Float = 0.1f
         thread = Thread{
             temp = tempGetter(town)
+
         }
         thread.start()
         thread.join()
@@ -105,6 +119,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater:MenuInflater = menuInflater
         inflater.inflate(R.menu.menu,menu)
@@ -115,22 +130,27 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId){
             R.id.Madrid->{
                 findCity(item.title.toString())
+                listViewAdapter()
                 return true
             }
             R.id.Barcelona->{
                 findCity(item.title.toString())
+                listViewAdapter()
                 return true
             }
             R.id.Berlin->{
                 findCity(item.title.toString())
+                listViewAdapter()
                 return true
             }
             R.id.Paris->{
                 findCity(item.title.toString())
+                listViewAdapter()
                 return true
             }
             R.id.Rome->{
                 findCity(item.title.toString())
+                listViewAdapter()
                 return true
             }
             R.id.Other->{
@@ -152,7 +172,7 @@ class MainActivity : AppCompatActivity() {
                          }
                     false
                 })
-
+                listViewAdapter()
                 return true
             }
             else->super.onOptionsItemSelected(item)
@@ -180,6 +200,7 @@ class MainActivity : AppCompatActivity() {
             var url: String = apiCreator(town);
             var connection: APIconnection = APIconnection(url);
             var temp: Float = connection.temperature;
+            daysofWeek = connection.days
             weatherCondition.text = connection.condtion
             weatherCondition.textAlignment = View.TEXT_ALIGNMENT_CENTER
             weatherCondition.textSize = 40.5f
@@ -195,7 +216,7 @@ class MainActivity : AppCompatActivity() {
         return temp;
     }
     fun apiCreator(town:String): String{
-        var url:String = "http://api.weatherapi.com/v1/current.json?key=5f7ab45fa09d4d82b8f173259241207&q="+town+"&aqi=no"
+        var url:String = "http://api.weatherapi.com/v1/forecast.json?key=5f7ab45fa09d4d82b8f173259241207&q="+town+"&days=7&aqi=no&alerts=no"
         return url
     }
 

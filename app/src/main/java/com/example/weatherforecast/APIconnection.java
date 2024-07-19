@@ -8,6 +8,8 @@ import org.json.JSONTokener;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class APIconnection {
@@ -17,6 +19,7 @@ public class APIconnection {
     private float minTemp;
     private String imageURL;
     private String condtion;
+    private List<Day> days;
 
     public String getImageURL() {
         return imageURL;
@@ -26,9 +29,40 @@ public class APIconnection {
         return condtion;
     }
 
+    public List<Day> getDays() {
+        return days;
+    }
+
     public APIconnection(String url){
         this.url = url;
         this.temp = 0.0f;
+        days = new ArrayList<>();
+    }
+
+    public void getWeatherForecastforWeek(String infoJSONmode){
+        try {
+
+            JSONTokener tokener = new JSONTokener(infoJSONmode);
+            JSONArray array = new JSONArray(tokener);
+            for(int i=0;i<array.length();i++){
+                JSONObject obj = array.getJSONObject(i);
+                JSONObject forecast = obj.getJSONObject("forecast");
+                JSONArray array2 = forecast.getJSONArray("forecastday");
+                for(int j=0;j< array2.length();j++){
+                    JSONObject obj2 = array2.getJSONObject(j);
+                    String date = obj2.getString("date");
+                    JSONObject day = obj2.getJSONObject("day");
+                    float max = (float) day.getDouble("maxtemp_c");
+                    float min = (float)day.getDouble("mintemp_c");
+                    JSONObject condition = day.getJSONObject("condition");
+                    String conditionDay = condition.getString("text");
+                    days.add(new Day(max,min,conditionDay,date));
+                }
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public float getTemperature(){
@@ -61,7 +95,10 @@ public class APIconnection {
                     this.condtion = condition.getString("text");
                     this.imageURL = condition.getString("icon");
                 }
+                getWeatherForecastforWeek(infoJSONmode);
+                conn.disconnect();
             }
+
         }
         catch (Exception e){
              String message = e.getMessage();
