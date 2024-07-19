@@ -13,6 +13,8 @@ import java.util.Scanner;
 public class APIconnection {
     private String url;
     private float temp;
+    private float maxTemp;
+    private float minTemp;
     private String imageURL;
     private String condtion;
 

@@ -173,7 +173,7 @@ class MainActivity : AppCompatActivity() {
         tempText.clearComposingText()
         tempText.text = temp.toString()+"°C"
         tempText.textAlignment=View.TEXT_ALIGNMENT_CENTER
-        tempText.textSize = 50.5f
+        tempText.textSize = 45.5f
     }
     fun tempGetter(town:String):Float{
 

@@ -22,34 +22,32 @@
     <ImageView
         android:id="@+id/sun"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginBottom="40dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="76dp"
 
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/infos"
 
         app:layout_constraintStart_toStartOf="parent" />
 
-
-
     <EditText
         android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="36dp"
         android:background="@drawable/search_form"
         android:hint=" Search the city here ... "
-        android:visibility="invisible"
-        android:inputType="text"
         android:imeOptions="actionDone"
+        android:inputType="text"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@id/sun"
-        tools:layout_editor_absoluteX="-3dp" />
+        tools:layout_editor_absoluteX="0dp" />
 
     <TextView
         android:id="@+id/infos"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="Bucharest"
         android:textAlignment="center"
         android:textSize="30dp"
@@ -57,21 +55,22 @@
         app:layout_constraintTop_toBottomOf="@+id/sun"
         tools:layout_editor_absoluteX="0dp" />
 
+
     <TextView
         android:id="@+id/tempText"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="52dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:text=" Min      Current     Max"
         android:textStyle="italic"
         app:layout_constraintTop_toBottomOf="@+id/ziua"
         tools:layout_editor_absoluteX="0dp" />
 
-
     <TextView
         android:id="@+id/condition"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="40dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
         android:textStyle="italic"
         app:layout_constraintTop_toBottomOf="@+id/tempText"
         tools:layout_editor_absoluteX="0dp" />
@@ -84,6 +83,8 @@
         android:textStyle="italic"
         app:layout_constraintTop_toBottomOf="@+id/infos"
         />
+
+    
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
