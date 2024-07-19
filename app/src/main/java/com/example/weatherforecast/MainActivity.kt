@@ -90,6 +90,7 @@ class MainActivity : AppCompatActivity() {
 
     fun listViewAdapter(){
         var adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,daysofWeek)
+
         listView.adapter=adapter
     }
     fun threadFun(town:String):Float{
@@ -204,6 +205,7 @@ class MainActivity : AppCompatActivity() {
             weatherCondition.text = connection.condtion
             weatherCondition.textAlignment = View.TEXT_ALIGNMENT_CENTER
             weatherCondition.textSize = 40.5f
+             weatherCondition.setTextColor(Color.WHITE)
             //  var uri:Uri = connection.imageURL.toUri()
             var urlFinal:String = connection.imageURL.split("//")[1]
             var urlImage:String = "http://"
