@@ -93,6 +93,8 @@ class MainActivity : AppCompatActivity() {
 
         listView.adapter=adapter
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     fun threadFun(town:String):Float{
         var temp:Float = 0.1f
         thread = Thread{
@@ -127,6 +129,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId){
             R.id.Madrid->{
@@ -181,6 +184,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+    @RequiresApi(Build.VERSION_CODES.O)
     fun findCity(city:String){
         text.clearComposingText()
         text.text = city
@@ -192,10 +197,12 @@ class MainActivity : AppCompatActivity() {
     fun writeTemperature(temp:Float){
         tempText=findViewById(R.id.tempText)
         tempText.clearComposingText()
-        tempText.text = temp.toString()+"°C"
+        tempText.text = "Feels like: "+temp.toString()+"°C"
         tempText.textAlignment=View.TEXT_ALIGNMENT_CENTER
-        tempText.textSize = 45.5f
+        tempText.textSize = 40.5f
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     fun tempGetter(town:String):Float{
 
             var url: String = apiCreator(town);
@@ -205,7 +212,11 @@ class MainActivity : AppCompatActivity() {
             weatherCondition.text = connection.condtion
             weatherCondition.textAlignment = View.TEXT_ALIGNMENT_CENTER
             weatherCondition.textSize = 40.5f
-             weatherCondition.setTextColor(Color.WHITE)
+           if(LocalTime.now()>=LocalTime.of(21,0))
+           {
+               weatherCondition.setTextColor(Color.WHITE)
+           }
+
             //  var uri:Uri = connection.imageURL.toUri()
             var urlFinal:String = connection.imageURL.split("//")[1]
             var urlImage:String = "http://"
